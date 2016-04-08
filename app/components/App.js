@@ -9,127 +9,110 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import AppBar from 'material-ui/lib/app-bar';
 import Simulation from "./Simulation.js"
 import  injectTapEventPlugin from "react-tap-event-plugin";
-                            injectTapEventPlugin();
-var classobj={
-    a:`
-.bounce-enter
-    opacity: 0
-    animation: bounceInDown 0.5s
-    animation-fill-mode: both
-.bounce-leave
-    animation: bounceOutUp 0.5s
-    animation-fill-mode: both
-@keyframes bounceInDown
-    0%
-        opacity: 0
-        transform: translateY(-500px)
-    60%
-        opacity: 0.7
-        transform: translateY(30px)
-    80%
-        opacity: 0.8
-        transform: translateY(-10px)
-    100%
-        opacity: 1
-        transform: translateY(0)
-@keyframes bounceOutUp
-    0%
-        opacity: 1
-        transform: translateY(0px)
-    20%
-        transform: translateY(-10px)
-    40%
-        transform: translateY(30px)
-    100%
-        transform: translateY(-500px)`
-}
+import sasses from "./sassSource"
 
 const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  item:{
-    flex:1
-  }
+          root: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+          },
+          item:{
+            flex:1
+          },
+          bts:{
+                alignSelf: "center"
+          }
 };
 
 class App extends React.Component {
      constructor(props) {
-        super(props);
+            injectTapEventPlugin();
+            super(props);
             this.state={
-                acss:"",
-                bcss:"",
-                cssname:"",
+                cssname:"bounce-leave",
                 selectedvalue:1
             }
-           
         }
-        style=1;
+        //定义私有的属性
+        style=null;
+        sass="";
+        css="";
         componentDidMount(){
-             fetch('/sass', {
+             
+        }
+        getMenueItems(){
+            var cssnames=Object.keys(sasses);
+            return cssnames.map((item,index)=>{
+                return  <MenuItem value={item} key={index} primaryText={item} />
+            })
+
+        }
+        sass2css(cssname){
+            //需要后后台服务
+            fetch('/sass', {
                   method: 'POST',
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({
-                    name: classobj.a
+                    name: sasses[cssname]
                   })
                 })
             .then((respone)=> respone.json())
             .then((data)=>{
                 this.setState({
-                    acss:classobj.a,
-                    bcss:data.data
+                    sass:sasses[cssname],
+                    css:data.data,
+                    selectedvalue:cssname
                 })  
                 var css = data.data,
-                head = document.head || document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
-                style.type = 'text/css';
-                if (style.styleSheet){
-                  style.styleSheet.cssText = css;
-                } else {
-                  style.appendChild(document.createTextNode(css));
+                head = document.head || document.getElementsByTagName('head')[0];
+                if(!this.style){
+                    this.style = document.createElement('style');
+                    this.style.type = 'text/css';
+                   
+                    head.appendChild(this.style);
                 }
-                head.appendChild(style);
-                console.log(style)
+                 this.style.innerHTML= css;
+              
             })
         }
         buttonclick(){
-            if(this.state.cssname=="bounce-enter"){
-                this.setState({
-                    cssname:"bounce-leave"
-                })
-            }else{
-                 this.setState({
-                    cssname:"bounce-enter"
-                })
-            }
+              this.setState({selectedvalue:this.state.cssname})
         }
-    handleChange = (event, index, value) => this.setState({selectedvalue:value});
+        animationEnd(){
+            this.setState({selectedvalue:""});
+        }
+        handleChange = (event, index, value) =>{
+                this.setState({cssname:value});
+                this.sass2css(value);
+
+        }
+         componentDidMount(){
+             this.sass2css(this.state.cssname);
+         }
+      
     render() {
         return (
             <div>
              <div style={styles.root} >
+                <Simulation cssname={this.state.selectedvalue} animationEnd={this.animationEnd.bind(this)}>
+               </Simulation>
+               <div style={styles.bts}>
+                <SelectField  value={this.state.cssname} onChange={this.handleChange.bind(this)} >
+                     {this.getMenueItems()}
+                </SelectField>
+                 <RaisedButton label="rePlay"  secondary={true} onMouseDown={this.buttonclick.bind(this)} />
+               </div>
                    <Highlight style={styles.item}>
-                    {this.state.acss}
+                    {this.state.sass}
                   </Highlight>
                   <Highlight style={styles.item}>
-                    {this.state.bcss }
+                    {this.state.css }
                   </Highlight>
-              <Simulation cssname={this.state.cssname} >
-               </Simulation>
             </div>
-                <SelectField  value={this.state.selectedvalue} onChange={this.handleChange} >
-                      <MenuItem value={1} primaryText="Never"/>
-                      <MenuItem value={2} primaryText="Every Night"/>
-                      <MenuItem value={3} primaryText="Weeknights"/>
-                      <MenuItem value={4} primaryText="Weekends"/>
-                      <MenuItem value={5} primaryText="Weekly"/>
-                </SelectField>
-               <RaisedButton label="Play"  secondary={true} onMouseDown={this.buttonclick.bind(this)} />
             </div>
            
         );

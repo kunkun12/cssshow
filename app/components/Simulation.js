@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import ReactDom from "react-dom"
 
 
 const styles={
@@ -23,8 +22,8 @@ const styles={
         backgroundColor:"#ff4081",
         position: "absolute",
         top: "50%",
-        left: "0",
-        right: "0",
+        left: 0,
+        right: 0,
         margin: "0 auto"
     }
 }
@@ -37,9 +36,7 @@ class Simulation extends React.Component {
             }
            
         }
-        componentDidMount(){
-           
-        }
+        
         buttonclick(){
             
         }
@@ -48,7 +45,7 @@ class Simulation extends React.Component {
             <div>
                 <div style={styles.phoneContainer}>
                 <div style={styles.phonebg}>
-                <div style={styles.content} className={this.props.cssname}></div>
+                <div style={styles.content} className={this.props.cssname} onAnimationEnd={this.props.animationEnd}></div>
                 </div>
                 <img src={require("../images/phone.png")}/>
                 </div>
