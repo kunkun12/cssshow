@@ -8,6 +8,8 @@ import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import AppBar from 'material-ui/lib/app-bar';
 import RadioButton from 'material-ui/lib/radio-button';
+import Popover from 'material-ui/lib/popover/popover';
+import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-from-top';
 import RadioButtonGroup from 'material-ui/lib/radio-button-group';
 import FontIcon from 'material-ui/lib/font-icon';
 import FlatButton from 'material-ui/lib/flat-button';
@@ -29,7 +31,7 @@ const styles = {
           },
           bts:{
                 alignSelf: "center",
-                 flex:1
+                flex:1
           },
           highlight:{
             maxHeight: (752/window.devicePixelRatio||1)+"px",
@@ -38,6 +40,9 @@ const styles = {
           },
           btlabel:{
             "textTransform": "none"
+          },
+          copiedpopoverstyle:{
+            padding: "10px"
           }
 };
 
@@ -48,7 +53,9 @@ class App extends React.Component {
             this.state={
                 cssname:"bounceInDown",
                 selectedvalue:1,
-                styleformat:"css"
+                styleformat:"css",
+                copypopoveropen:false,
+                anchorEl:null,
             }
         }
         //定义私有的属性
@@ -143,8 +150,17 @@ class App extends React.Component {
                 this.sass2css(value);
 
         }
-        copyHander(){
+        copyHander(event){
           //将代码复制到粘贴板
+              this.setState({
+                    copypopoveropen: true,
+                    anchorEl: event.currentTarget,
+                });
+              setTimeout(()=>{
+                  this.setState({
+                    copypopoveropen: false,
+                });
+              },1000);
            copy(this.state[this.state.styleformat]);
         }
         cssStyleChnaged=(event,value)=>{
@@ -195,6 +211,18 @@ class App extends React.Component {
                         </div>
                         <div style={{"flex":'1'}}>
                           <RaisedButton label="copy code"  labelStyle={styles.btlabel}  onMouseDown={this.copyHander.bind(this)} >
+                              <Popover
+                                  open={this.state.copypopoveropen}
+                                  anchorEl={this.state.anchorEl}
+                                  anchorOrigin={{"horizontal":"middle","vertical":"bottom"}}
+                                  targetOrigin={{"horizontal":"middle","vertical":"top"}}
+                                  animation={PopoverAnimationFromTop}
+                                >
+                                <div style={styles.copiedpopoverstyle}>
+                                  copied
+                                </div>
+                           </Popover>
+
                           </RaisedButton>
                         </div>
                     </div>

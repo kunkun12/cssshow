@@ -317,7 +317,8 @@ fadeOutLeft:
     transform: translateX(-40px)
 `,
 fadeInLeft:
-`.fadeInLeft
+`
+.fadeInLeft
     animation: fadeInLeft 1s
     animation-fill-mode: both 
 @keyframes fadeInLeft
@@ -332,6 +333,9 @@ fadeInLeft:
         animation-fill-mode: both`,
 fadeOutRight:
 `
+.fadeOutRight
+    animation: fadeOutRight 1s
+    animation-fill-mode: both 
 @keyframes fadeOutRight
     0%
         opacity: 1
