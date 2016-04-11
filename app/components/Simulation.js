@@ -16,8 +16,8 @@ const styles={
     phonebg:{
         position:"absolute",
         width: 340/ratio+"px",
-        height: 640/ratio+"px",
-        top: 40/ratio+"px",
+        height: 610/ratio+"px",
+        top: 70/ratio+"px",
         left: 12/ratio+"px",
         backgroundColor: "#FFF"
     },
