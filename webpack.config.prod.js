@@ -48,6 +48,9 @@ var myConfig = {
         },
         extensions: ['', '.js', '.jade', '.jsx']
     },
+     externals: {
+        "Sass": "Sass"
+    },//将外部的全局变量映射为内部的模块
     plugins: [
         new HtmlWebpackPlugin({ // Also generate a test.html
             filename: 'index.html',

@@ -60,6 +60,9 @@ var myConfig = {
         },
         extensions: ['', '.js', '.jade', '.jsx']
     },
+     externals: {
+        "Sass": "Sass"
+    },
     plugins: [
          new HtmlWebpackPlugin({ // Also generate a test.html
             filename: 'index.html',

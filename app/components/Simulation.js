@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDom from "react-dom"
-
+var ratio =window.devicePixelRatio||1;
 
 const styles={
     phoneContainer: {
         position: "relative",
-        width: "365px",
-        height: "752px"
+        overflow:"hidden",
+        width: 365/ratio+"px",
+        height: 752/ratio+"px",
+        margin: "0 auto"
+    },
+    phoneimg:{
+        width: "100%"
     },
     phonebg:{
         position:"absolute",
-        width: "340px",
-        height: "640px",
-        top: "40px",
-        left: "12px",
+        width: 340/ratio+"px",
+        height: 640/ratio+"px",
+        top: 40/ratio+"px",
+        left: 12/ratio+"px",
         backgroundColor: "#FFF"
     },
     content: {
@@ -47,7 +52,7 @@ class Simulation extends React.Component {
                 <div style={styles.phonebg}>
                 <div style={styles.content} className={this.props.cssname} onAnimationEnd={this.props.animationEnd}></div>
                 </div>
-                <img src={require("../images/phone.png")}/>
+                <img style={styles.phoneimg} src={require("../images/phone.png")}/>
                 </div>
             </div>
         );

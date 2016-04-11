@@ -15,7 +15,8 @@
     "material-ui": "^0.15.0-alpha.2",
     "react": "^15",
     "react-dom": "^15",
-    "react-highlight": "^0.7.0"
+    "react-highlight": "^0.7.0",
+    "copy-to-clipboard":"*"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
