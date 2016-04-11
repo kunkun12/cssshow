@@ -1,6 +1,6 @@
 
 
-# feature
+# Features
 * 主要目的方便拷贝CSS 常用动画效果的相关代码（sass 和CSS格式）。
 * 使用sass.js 在前端实现sass －> css
 * 基于react＋webpack
@@ -9,7 +9,7 @@
 * 画样式 主要来源于  [animatecss](https://github.com/daneden/animate.css)
 
 
-# install
+# Installation
 
 * 运行 `npm install` 安装依赖。
     material-ui 的点击事件以来了react-tap-event-plugin，npm上目前为的0.2.2
@@ -19,4 +19,6 @@
 
 
 ToDo
-* ?????
+* autoPrefix
+* class classify
+* more content
