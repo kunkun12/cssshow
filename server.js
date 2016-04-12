@@ -5,7 +5,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
 var bodyParser = require('body-parser')
- var sass = require('node-sass');
+ // var sass = require('node-sass');
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.port;
 const app = express();
@@ -38,17 +38,18 @@ if (isDeveloping) {
   });
 }
 app.use( bodyParser.json() );  
-app.post("/sass",function(req,res){
-    var result = sass.renderSync({
-      data: req.body.name,
-      indentedSyntax:true,
-      indentWidth:4,
-      outputStyle:'expanded'
-    });
-    res.status(200).json({
-      data:result.css.toString('utf8')
-    })
-});
+// sass->css改为 实用 sass.js 前端处理
+// app.post("/sass",function(req,res){
+//     var result = sass.renderSync({
+//       data: req.body.name,
+//       indentedSyntax:true,
+//       indentWidth:4,
+//       outputStyle:'expanded'
+//     });
+//     res.status(200).json({
+//       data:result.css.toString('utf8')
+//     })
+// });
 app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);

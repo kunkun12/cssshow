@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var precss = require('precss');
 var autoprefixer = require('autoprefixer');
 var myConfig = {
-    debug: true,
+    debug: false,
     devtool: 'source-map',
     entry: [path.resolve(__dirname, 'app/main.js')],
     context: path.resolve(process.cwd(), 'app'),
@@ -25,6 +25,9 @@ var myConfig = {
             },
             include: path.join(__dirname, 'app')
         }, {
+        test: /\.json$/,
+        loader: "json-loader"
+    },{
             test: /\.jade$/,
             loader: 'html!jade-html'
         }, {
@@ -40,6 +43,9 @@ var myConfig = {
     },
     postcss: function() {
         return [precss, autoprefixer];
+    },
+    node: {
+        fs: "empty"
     },
     resolve: {
         root: [path.resolve(process.cwd(), 'app'), path.resolve(__dirname, 'node_modules')], //设置搜索目录

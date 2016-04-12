@@ -39,7 +39,10 @@ var myConfig = {
         }, {
             test: /\.jade$/,
             loader: 'html!jade-html'
-        }, {
+        },{
+        test: /\.json$/,
+        loader: "json-loader"
+    }, {
             test: /\.css$/,
             loader: 'style!css'
         }, {
@@ -63,6 +66,10 @@ var myConfig = {
      externals: {
         "Sass": "Sass"
     },
+    node: {
+  fs: "empty"
+},
+
     plugins: [
          new HtmlWebpackPlugin({ // Also generate a test.html
             filename: 'index.html',

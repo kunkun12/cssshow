@@ -13,7 +13,10 @@ import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-f
 import RadioButtonGroup from 'material-ui/lib/radio-button-group';
 import FontIcon from 'material-ui/lib/font-icon';
 import FlatButton from 'material-ui/lib/flat-button';
+import Checkbox from 'material-ui/lib/checkbox';
 import Sass from "Sass";
+import autoprefixer from 'autoprefixer';
+import postcss      from  'postcss';
 import copy from 'copy-to-clipboard';
 import Simulation from "./Simulation.js"
 import  injectTapEventPlugin from "react-tap-event-plugin";
@@ -43,7 +46,10 @@ const styles = {
           },
           copiedpopoverstyle:{
             padding: "10px"
-          }
+          },
+          autoprefixcheck: {
+                  marginBottom: 16,
+                }
 };
 
 class App extends React.Component {
@@ -54,14 +60,18 @@ class App extends React.Component {
                 cssname:"bounceInDown",
                 selectedvalue:1,
                 styleformat:"css",
+                autoprefix:false,
                 copypopoveropen:false,
                 anchorEl:null,
+                sass:"",
+                css:"",
+                prefixercss:'',
+                csscode:""
             }
         }
         //定义私有的属性
         style=null;
-        sass="";
-        css="";
+        
         componentDidMount(){
              
         }
@@ -79,19 +89,31 @@ class App extends React.Component {
             indent:'    ',
             indentedSyntax:true
            },(data)=>{
-              var css = data.text,
+              var atomcss = data.text,
                   head = document.head || document.getElementsByTagName('head')[0];
                   if(!this.style){
                       this.style = document.createElement('style');
                       this.style.type = 'text/css';
                       head.appendChild(this.style);
                   }
-                 this.style.innerHTML= css;
+                  postcss([ autoprefixer ]).process(atomcss).then((result)=> {
+                     result.warnings().forEach(function (warn) {
+                          console.warn(warn.toString());
+                      });
+                      this.style.innerHTML=result.css;
+                      this.setState({
+                        sass:sasses[cssname],
+                        css:atomcss,
+                        selectedvalue:cssname,
+                        prefixercss:result.css
+                   });
+             
                   this.setState({
-                    sass:sasses[cssname],
-                    css:css,
-                    selectedvalue:cssname
-                })  
+                    csscode:cssname=='sass'?sasses[cssname]:this.state.autoprefixer?result.css:atomcss
+                  });
+                
+
+              });                
                 
            });
 
@@ -127,7 +149,6 @@ class App extends React.Component {
             // })
         }
         buttonclick(){
-             
               this.setState({
                 selectedvalue:this.state.cssname,
                 btdisEnable:true
@@ -142,7 +163,7 @@ class App extends React.Component {
                 selectedvalue:"",
                 btdisEnable:false
             });
-          },1000)
+          },500)
             
         }
         handleChange = (event, index, value) =>{
@@ -161,14 +182,22 @@ class App extends React.Component {
                     copypopoveropen: false,
                 });
               },1000);
-           copy(this.state[this.state.styleformat]);
+           copy(this.state.csscode);
+        }
+        autoPrefixerck(event,value){
+            this.setState({autoprefixer:value});
+            if(this.state.styleformat==='css'){
+                this.state.csscode=value?this.state.prefixercss:this.state.css;
+            }
         }
         cssStyleChnaged=(event,value)=>{
           this.setState({styleformat:value});
+          this.state.csscode=value=="sass"?this.state.sass:this.state.css;
+          this.setState({autoprefixer:false})
         }
-         componentDidMount(){
-             this.sass2css(this.state.cssname);
-         }
+       componentDidMount(){
+           this.sass2css(this.state.cssname);
+       }
       
     render() {
         return (
@@ -209,6 +238,15 @@ class App extends React.Component {
                           </RadioButton>
                         </RadioButtonGroup>
                         </div>
+                        {this.state.styleformat==="css"?<div style={{"flex":'1'}}>
+                         <Checkbox
+                          label="autoprefixer"
+                          defaultChecked={this.state.autoprefixer}
+                          onCheck={this.autoPrefixerck.bind(this)}
+                          style={styles.autoprefixcheck}
+                          />
+                        </div>:""}
+                        
                         <div style={{"flex":'1'}}>
                           <RaisedButton label="copy code"  labelStyle={styles.btlabel}  onMouseDown={this.copyHander.bind(this)} >
                               <Popover
@@ -228,7 +266,7 @@ class App extends React.Component {
                     </div>
                     <div style={styles.highlight}>
                       <Highlight >
-                        {this.state[this.state.styleformat]}
+                        {this.state.csscode}
                       </Highlight>
                     </div>
                 </div>

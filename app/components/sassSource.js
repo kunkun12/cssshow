@@ -328,9 +328,7 @@ fadeInLeft:
     100%
         opacity: 1
         transform: translateX(0)
-.fadeOutRight
-        animation: fadeOutRight 1s
-        animation-fill-mode: both`,
+`,
 fadeOutRight:
 `
 .fadeOutRight
