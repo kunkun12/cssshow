@@ -1,14 +1,15 @@
 
 
 # Features
+* [在线访问](http://kunkun12.com/cssshow/build)
 * 主要目的方便拷贝CSS 常用动画效果的相关代码（sass 和CSS格式）。
 * 使用sass.js 在前端实现sass －> css
 * 前端实现 autoprefixer
 * 基于react＋webpack
-* 使用react-hilight 格式化展示代码。
+* 使用react-highlight 格式化展示代码。
 * 易于样式扩展，在sassSource.js增加相关样式即可
-*  Css样式主要来源于  [animatecss](https://github.com/daneden/animate.css)
-* [在线访问](http://kunkun12.com/cssshow/build)
+*  Css样式主要来源于  [Animate.css](https://github.com/daneden/animate.css)
+
 
 # Installation
 
