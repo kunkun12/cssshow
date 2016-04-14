@@ -10,6 +10,7 @@
 * 易于样式扩展，在sassSource.js增加相关样式即可
 *  Css样式主要来源于  [Animate.css](https://github.com/daneden/animate.css)
 
+![](http://7o5118.com1.z0.glb.clouddn.com/1.gif)
 
 # Installation
 
