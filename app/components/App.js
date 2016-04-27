@@ -107,9 +107,8 @@ class App extends React.Component {
                         selectedvalue:cssname,
                         prefixercss:result.css
                    });
-             
                   this.setState({
-                    csscode:cssname=='sass'?sasses[cssname]:this.state.autoprefixer?result.css:atomcss
+                    csscode:this.state.styleformat=='sass'?sasses[cssname]:this.state.autoprefixer?result.css:atomcss
                   });
                 
 
