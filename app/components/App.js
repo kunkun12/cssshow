@@ -39,7 +39,8 @@ const styles = {
           highlight:{
             maxHeight: (752/window.devicePixelRatio||1)+"px",
             width: "360px",
-            overflow: "scroll"
+            overflow: "scroll",
+            fontSize: "14px"
           },
           btlabel:{
             "textTransform": "none"
