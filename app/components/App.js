@@ -3,17 +3,17 @@ import {} from './css.sass';
 import React from 'react';
 import {} from "react-highlight/node_modules/highlight.js/styles/monokai.css"
 import Highlight from 'react-highlight';
-import RaisedButton from 'material-ui/lib/raised-button';
-import SelectField from 'material-ui/lib/select-field';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import AppBar from 'material-ui/lib/app-bar';
-import RadioButton from 'material-ui/lib/radio-button';
-import Popover from 'material-ui/lib/popover/popover';
-import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-from-top';
-import RadioButtonGroup from 'material-ui/lib/radio-button-group';
-import FontIcon from 'material-ui/lib/font-icon';
-import FlatButton from 'material-ui/lib/flat-button';
-import Checkbox from 'material-ui/lib/checkbox';
+import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import AppBar from 'material-ui/AppBar';
+import {RadioButton,RadioButtonGroup} from 'material-ui/RadioButton';
+import {Popover,PopoverAnimationDefault} from 'material-ui/Popover';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//import PopoverAnimationFromTop from 'material-ui/lib/popover/popover-animation-from-top';
+import FontIcon from 'material-ui/FontIcon';
+import FlatButton from 'material-ui/FlatButton';
+import Checkbox from 'material-ui/CheckBox';
 import Sass from "Sass";
 import autoprefixer from 'autoprefixer';
 import postcss      from  'postcss';
@@ -201,6 +201,7 @@ class App extends React.Component {
       
     render() {
         return (
+            <MuiThemeProvider>
             <div>
               <AppBar title="css show" iconElementRight={
                   <FlatButton  
@@ -254,7 +255,7 @@ class App extends React.Component {
                                   anchorEl={this.state.anchorEl}
                                   anchorOrigin={{"horizontal":"middle","vertical":"bottom"}}
                                   targetOrigin={{"horizontal":"middle","vertical":"top"}}
-                                  animation={PopoverAnimationFromTop}
+                                  
                                 >
                                 <div style={styles.copiedpopoverstyle}>
                                   copied
@@ -271,7 +272,8 @@ class App extends React.Component {
                     </div>
                 </div>
               </div>
-          </div>
+              </div>
+          </MuiThemeProvider>
            
         );
     }
